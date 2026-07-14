@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Evidências</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f4f6f9;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #444;
+    }
+
+    select,
+    input,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .preview img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 8px;
+        background: #0078D4;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #106ebe;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Registro de Evidências</h1>
+
+    <form id="registroForm">
+
+        <div class="form-group">
+            <label for="tipoRegistro">Tipo de Registro</label>
+            <select id="tipoRegistro" required>
+                <option value="">Selecione...</option>
+                <option>Ordem de Produção</option>
+                <option>Preparação</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="codigo">Código OP / Material</label>
+            <input
+                type="text"
+                id="codigo"
+                placeholder="Digite o código da OP ou material"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label for="observacoes">Obs. / Dados adicionais</label>
+            <textarea
+                id="observacoes"
+                placeholder="Digite observações ou informações adicionais"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="evidencias">Evidências</label>
+            <input
+                type="file"
+                id="evidencias"
+                accept="image/*"
+                capture="environment"
+                multiple>
+
+            <div class="preview" id="preview"></div>
+        </div>
+
+        <button type="submit">Enviar Registro</button>
+
+    </form>
+</div>
+
+<script>
+const evidenciasInput = document.getElementById('evidencias');
+const preview = document.getElementById('preview');
+
+evidenciasInput.addEventListener('change', function() {
+
+    preview.innerHTML = '';
+
+    Array.from(this.files).forEach(file => {
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+
+            preview.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+    });
+});
+
+document.getElementById('registroForm').addEventListener('submit', function(e) {
+
+    e.preventDefault();
+
+    alert('Registro enviado com sucesso!');
+
+    this.reset();
+    preview.innerHTML = '';
+});
+</script>
+
+</body>
+</html>
